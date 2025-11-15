@@ -1,36 +1,303 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>Desafio</title>
+    <title>Assistente de Produtividade IA - Autou</title>
+    <style>
+        /* Variáveis de Cores (Definidas por tema) */
+        :root {
+            /* Fixos para o destaque da IA */
+            --accent-color: #2fbaba; 
+            --glow-color: rgba(0, 255, 255, 0.4);
+
+            /* Cores Dark Theme (Padrão) */
+            --dark-bg: #121212;
+            --main-container-bg: #1a1a1a;
+            --text-color: #F8F9FA;
+            --input-bg: #2C2C2C;
+            --input-border: #444;
+        }
+
+        /* Cores Light Theme - Sobrescrevem as Dark */
+        [data-bs-theme="light"] {
+            --dark-bg: #F8F9FA; 
+            --main-container-bg: #FFFFFF;
+            --text-color: #212529; /* Texto Escuro */
+            --input-bg: #E9ECEF;
+            --input-border: #CED4DA;
+        }
+
+        /* Estilos Globais e Fundo */
+        body {
+            background-color: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Nav e Footer - Borda Ciano Restaurada */
+        .navbar, .footer {
+            background-color: var(--dark-bg) !important;
+            border-bottom: 1px solid var(--accent-color); /* Borda Ciano */
+        }
+        .footer {
+            border-top: 1px solid var(--accent-color); /* Borda Ciano */
+            border-bottom: none !important; /* Remove borda inferior redundante do navbar class */
+        }
+        
+        /* Regras de cor para os textos do Navbar/Footer */
+        .navbar-brand strong, 
+        .navbar-text,
+        .footer .small {
+            color: var(--text-color) !important; /* Força o uso da variável de cor de texto */
+            transition: color 0.3s;
+        }
+
+        /* Container Principal com Efeito de Destaque */
+        .main-container {
+            background-color: var(--main-container-bg);
+            border-radius: 12px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            padding: 40px;
+            box-shadow: 0 0 20px var(--glow-color); 
+            flex-grow: 1;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        
+        /* O Brilho Ciano é removido no modo Light */
+        [data-bs-theme="light"] .main-container {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos de Formulário */
+        .form-label {
+            color: var(--text-color);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .form-content {
+            width: 100%;
+            max-width: 750px;
+            padding: 10px;
+        }
+
+        /* Estilo dos Inputs e Textarea */
+        .form-control.custom-input {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--input-border);
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-control.custom-input:focus {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        }
+        .form-control.custom-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.5;
+        }
+        
+        /* Botão de Tema */
+        #theme-toggle {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background: transparent;
+            transition: all 0.3s;
+        }
+        #theme-toggle:hover {
+            color: var(--dark-bg);
+            background-color: var(--accent-color);
+        }
+
+        /* Botão Aprimorado (com Brilho) */
+        .btn-ai-submit {
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 12px 0;
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            border: none;
+            transition: transform 0.2s, box-shadow 0.3s;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(31, 230, 230, 0.8);
+        }
+        .btn-ai-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px var(--accent-color);
+            background-color: #1ed9d9;
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar bg-body-tertiary">
+    <nav class="navbar bg-dark border-bottom" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="front-end\assets\img\logo.png" alt="Logo" width="30" height="24"
-                    class="d-inline-block align-text-top">
-                Felipe Henrique de Oliveira Cândido
+                <img src="assets\img\mail.png" alt="Mail Icon" width="30" height="30"
+                    class="d-inline-block align-text-top me-2">
+                <strong>Autou</strong>
             </a>
+            
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-info me-3" id="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-sun" id="theme-icon"></i>
+                </button>
+                
+                <span class="navbar-text small">
+                    Felipe Henrique de Oliveira Cândido
+                </span>
+            </div>
         </div>
     </nav>
 
-<p>Teste</p>
+    <div class="container main-container">
+        <h2 class="text-center mb-5" style="color: var(--accent-color); text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);">
+            Análise Inteligente de E-mail
+        </h2>
+        
+        <form class="d-flex flex-column align-items-center" action="" method="post">
+            
+            <div class="mb-4 form-content">
+                <label for="formFileMultiple" class="form-label">Upload de Arquivo (Opcional)</label>
+                <input class="form-control custom-input" type="file" id="formFileMultiple" multiple>
+            </div>
+            
+            <div class="mb-5 form-content">
+                <label for="emailContentArea" class="form-label">Cole o Conteúdo do E-mail para Análise</label>
+                <textarea class="form-control custom-input" id="emailContentArea" rows="10" 
+                          placeholder="Ex: Olá, precisamos finalizar o projeto X até quinta-feira. Por favor, confirme a sua disponibilidade para a reunião de amanhã às 10h."></textarea>
+            </div>
+            
+            <div class="form-content d-flex justify-content-center">
+                <button type="button" class="btn btn-ai-submit" id="btnProcess">
+                    <i class="fas fa-robot me-2"></i> Analisar e Sugerir Resposta
+                </button>
+            </div>
+        </form>
+    </div>
 
-
-
-
-
-
+    <footer class="footer bg-dark border-top mt-auto py-3">
+        <div class="container text-center">
+            <span class="small">
+                &copy; 2025 Autou IA. Desenvolvido por Felipe & Marieli.
+            </span>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        // Função para alternar o tema
+        function toggleTheme() {
+            const root = document.documentElement;
+            const currentTheme = root.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            root.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            updateNavbarTheme(newTheme);
+        }
+
+        // Atualiza o ícone do botão
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                // Se está no tema DARK, mostra o ícone do SOL (para mudar para LIGHT)
+                if (theme === 'dark') {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    // Se está no tema LIGHT, mostra o ícone da LUA (para mudar para DARK)
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+        }
+
+        // Atualiza as classes de fundo do Navbar e Footer para o Bootstrap
+        function updateNavbarTheme(theme) {
+            const nav = document.querySelector('nav');
+            const footer = document.querySelector('footer');
+            
+            // Remove classes bg-dark/bg-light e adiciona a nova
+            nav.setAttribute('data-bs-theme', theme);
+
+            // Controla o background manualmente para usar a variável CSS
+            const bgClass = theme === 'dark' ? 'bg-dark' : 'bg-light';
+            nav.classList.remove('bg-dark', 'bg-light');
+            nav.classList.add(bgClass);
+
+            footer.classList.remove('bg-dark', 'bg-light');
+            footer.classList.add(bgClass);
+        }
+
+        // Aplicar tema salvo ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+            updateNavbarTheme(savedTheme);
+        });
+
+
+        // Lógica de Envio da API (Mantida)
+        document.getElementById('btnProcess').addEventListener('click', async () => {
+            const emailContent = document.getElementById('emailContentArea').value;
+            const btn = document.getElementById('btnProcess');
+            
+            if (!emailContent) {
+                alert('Por favor, insira o conteúdo do e-mail para análise.');
+                return;
+            }
+
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Enviando para análise...';
+            
+            // ENDPOINT DO SEU BACKEND FLASK NO AZURE
+            const backendUrl = 'http://localhost:5000/process_email'; 
+
+            try {
+                const response = await fetch(backendUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email_content: emailContent })
+                });
+
+                const data = await response.json();
+                
+                if (!response.ok || data.status === "error") {
+                    throw new Error(data.error || `Erro HTTP! Status: ${response.status}`);
+                }
+                
+                // Sucesso: Mantenho o alerta e a limpeza de texto conforme sua última instrução.
+                alert('✅ Análise concluída com sucesso! Os resultados (Categoria e Resposta) foram processados.');
+                document.getElementById('emailContentArea').value = ''; 
+
+            } catch (error) {
+                console.error('Falha ao processar e-mail:', error);
+                alert(`❌ Erro: Falha ao enviar ou processar a análise. Detalhes: ${error.message}.`);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        });
+    </script>
 </body>
 
 </html>
