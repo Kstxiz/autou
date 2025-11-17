@@ -1,0 +1,128 @@
+:root {
+            /* Fixos para o destaque da IA */
+            --accent-color: #2fbaba; 
+            --glow-color: rgba(0, 255, 255, 0.4);
+
+            /* Cores Dark Theme (Padrão) */
+            --dark-bg: #121212;
+            --main-container-bg: #1a1a1a;
+            --text-color: #F8F9FA;
+            --input-bg: #2C2C2C;
+            --input-border: #444;
+        }
+
+        /* Cores Light Theme - Sobrescrevem as Dark */
+        [data-bs-theme="light"] {
+            --dark-bg: #F8F9FA; 
+            --main-container-bg: #FFFFFF;
+            --text-color: #212529; /* Texto Escuro */
+            --input-bg: #E9ECEF;
+            --input-border: #CED4DA;
+        }
+
+        /* Estilos Globais e Fundo */
+        body {
+            background-color: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Nav e Footer - Borda Ciano Restaurada */
+        .navbar, .footer {
+            background-color: var(--dark-bg) !important;
+            border-bottom: 1px solid var(--accent-color); /* Borda Ciano */
+        }
+        .footer {
+            border-top: 1px solid var(--accent-color); /* Borda Ciano */
+            border-bottom: none !important; /* Remove borda inferior redundante do navbar class */
+        }
+        
+        /* Regras de cor para os textos do Navbar/Footer */
+        .navbar-brand strong, 
+        .navbar-text,
+        .footer .small {
+            color: var(--text-color) !important; /* Força o uso da variável de cor de texto */
+            transition: color 0.3s;
+        }
+
+        /* Container Principal com Efeito de Destaque */
+        .main-container {
+            background-color: var(--main-container-bg);
+            border-radius: 12px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            padding: 40px;
+            box-shadow: 0 0 20px var(--glow-color); 
+            flex-grow: 1;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        
+        /* O Brilho Ciano é removido no modo Light */
+        [data-bs-theme="light"] .main-container {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos de Formulário */
+        .form-label {
+            color: var(--text-color);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .form-content {
+            width: 100%;
+            max-width: 750px;
+            padding: 10px;
+        }
+
+        /* Estilo dos Inputs e Textarea */
+        .form-control.custom-input {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--input-border);
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-control.custom-input:focus {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        }
+        .form-control.custom-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.5;
+        }
+        
+        /* Botão de Tema */
+        #theme-toggle {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background: transparent;
+            transition: all 0.3s;
+        }
+        #theme-toggle:hover {
+            color: var(--dark-bg);
+            background-color: var(--accent-color);
+        }
+
+        /* Botão Aprimorado (com Brilho) */
+        .btn-ai-submit {
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 12px 0;
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            border: none;
+            transition: transform 0.2s, box-shadow 0.3s;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(31, 230, 230, 0.8);
+        }
+        .btn-ai-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px var(--accent-color);
+            background-color: #1ed9d9;
+        }
