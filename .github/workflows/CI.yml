@@ -1,7 +1,7 @@
 # .github/workflows/ci.yml
-name: Continuous Integration (CI) - Lint & Validação
+name: Continuous Integration (CI) - Lint & Documentação
 
-# Quando o workflow deve ser executado
+# 🎯 Quando o workflow deve ser executado
 on:
   push:
     branches:
@@ -10,44 +10,31 @@ on:
     branches:
       - main
 
-# Define os jobs (tarefas) a serem executados
+# ⚙️ Define os jobs (tarefas) a serem executados
 jobs:
-  # Job 1: Validar Front-end Estático (HTML/CSS/Links)
-  validate_frontend:
-    name: Validação Estática (HTML/Links)
-    runs-on: ubuntu-latest # Usa a máquina virtual mais recente do Ubuntu
-
-    steps:
-      - name: 1. Checkout do Código
-        # Baixa o código do seu repositório
-        uses: actions/checkout@v4
-
-      - name: 2. Configurar Ruby e Instalar html-proofer
-        # O html-proofer (ótimo para verificar links) é baseado em Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3'
-          bundler-cache: true
-      
-      - name: 3. Instalar o html-proofer
-        run: gem install html-proofer
-
-      - name: 4. Executar Teste de Validação (Links/Imagens)
-        # Executa a validação na pasta do seu front-end
-        # --disable-external ignora links para fora do seu site (como o link para o Bootstrap CDN)
-        # --allow-missing-alt permite tags <img> sem alt
-        run: htmlproofer ./front-end --check-html --disable-external --allow-missing-alt        
-  # Job 2: Validar Qualidade da Documentação (Markdown)
+  # Job 1: Validar Qualidade da Documentação (Markdown)
   lint_markdown:
     name: Lint de Documentação
     runs-on: ubuntu-latest
     
     steps:
       - name: 1. Checkout do Código
+        # Baixa o código do seu repositório
         uses: actions/checkout@v4
       
       - name: 2. Executar Markdown Linter
         # Usa um Action pronto para checar se o README e outros Markdowns estão bem formatados
+        # Esta ferramenta é baseada em Node.js e é muito estável.
         uses: avto-dev/markdown-lint@v1
         with:
           args: './*.md' # Checa todos os arquivos .md na raiz
+          
+  # Job 2: Estrutura para Validação Python/Flask (Futuro)
+  # Este job está vazio, mas serve como um placeholder para quando você adicionar o backend
+  validate_python:
+    name: Validação Python (Placeholder)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Informação
+        run: echo "O lint e testes do código Python serão adicionados aqui quando o backend Flask for criado."
