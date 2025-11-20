@@ -1,17 +1,27 @@
-# Autou: Assistente de Produtividade de E-mail com IA
+# 🤖 Autou: Assistente de Produtividade de E-mail com IA
 
-## Visão Geral do Projeto
+## 🌟 Visão Geral do Projeto
 
-O **Autou** é uma solução de Assistência de Produtividade (AI-Powered Productivity Assistant) focada em otimizar a gestão de caixas de entrada de e-mail. Desenvolvido para reduzir o tempo gasto na leitura, categorização e redação de respostas, o Autou utiliza modelos de Inteligência Artificial para fornecer classificações instantâneas e sugestões de respostas profissionais.
+O **Autou** é uma solução de Assistência de Produtividade 
+(AI-Powered Productivity Assistant) focada em otimizar a gestão 
+de caixas de entrada de e-mail. 
 
-### Objetivos
-* **Acelerar a Tomada de Decisão:** Classificar e-mails como `URGENTE`, `PRODUTIVO` ou `INFORMATIVO`.
-* **Otimizar a Redação:** Gerar rascunhos de respostas concisas e profissionais.
-* **Garantir Consistência:** Manter um tom de comunicação empresarial uniforme.
+Desenvolvido para reduzir o tempo gasto na leitura, categorização 
+e redação de respostas, o Autou utiliza modelos de Inteligência Artificial 
+para fornecer classificações instantâneas e sugestões de respostas profissionais.
+
+### 🎯 Objetivos
+
+* **Acelerar a Tomada de Decisão:** Classificar e-mails como 
+  `URGENTE`, `PRODUTIVO` ou `INFORMATIVO`.
+* **Otimizar a Redação:** Gerar rascunhos de respostas concisas 
+  e profissionais.
+* **Garantir Consistência:** Manter um tom de comunicação empresarial 
+  uniforme.
 
 ---
 
-## Tecnologias Utilizadas
+## 🛠️ Tecnologias Utilizadas
 
 Este projeto adota uma arquitetura moderna e escalável de microserviços.
 
@@ -25,12 +35,15 @@ Este projeto adota uma arquitetura moderna e escalável de microserviços.
 
 ---
 
-## Configuração e Instalação (Docker Compose)
+## ⚙️ Configuração e Instalação (Docker Compose)
 
-A maneira mais fácil de rodar o projeto é usando o Docker Compose, que iniciará o Nginx (Frontend) e o Flask (Backend) simultaneamente.
+A maneira mais fácil de rodar o projeto é usando o Docker Compose, 
+que iniciará o Nginx (Frontend) e o Flask (Backend) simultaneamente.
 
 ### Pré-requisitos
-Certifique-se de ter o **Docker** e o **Docker Compose** instalados em sua máquina.
+
+Certifique-se de ter o **Docker** e o **Docker Compose** instalados 
+em sua máquina.
 
 ### 1. Clonar o Repositório
 
