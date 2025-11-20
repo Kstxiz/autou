@@ -36,8 +36,7 @@ jobs:
         # Executa a validação na pasta do seu front-end
         # --disable-external ignora links para fora do seu site (como o link para o Bootstrap CDN)
         # --allow-missing-alt permite tags <img> sem alt
-        run: htmlproofer ./front-end --only-html --check-html --disable-external --allow-missing-alt
-        
+        run: htmlproofer ./front-end --check-html --disable-external --allow-missing-alt        
   # Job 2: Validar Qualidade da Documentação (Markdown)
   lint_markdown:
     name: Lint de Documentação
