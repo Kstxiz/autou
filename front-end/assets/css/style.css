@@ -13,8 +13,8 @@
 
         /* Cores Light Theme - Sobrescrevem as Dark */
         [data-bs-theme="light"] {
-            --dark-bg: #F8F9FA; 
-            --main-container-bg: #FFFFFF;
+            --dark-bg: #f1f1f1; 
+            --main-container-bg: #f5f5f5;
             --text-color: #212529; /* Texto Escuro */
             --input-bg: #E9ECEF;
             --input-border: #CED4DA;
@@ -125,4 +125,72 @@
             transform: scale(1.02);
             box-shadow: 0 0 15px var(--accent-color);
             background-color: #1ed9d9;
+        }
+
+
+
+        /* Estilos para Resultados */
+         /* Container Principal (Mudo o nome para content-container para diferenciar, mas mantém o estilo) */
+        .content-container {
+            background-color: var(--main-container-bg);
+            border-radius: 12px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            padding: 40px;
+            box-shadow: 0 0 20px var(--glow-color); 
+            flex-grow: 1;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        
+        [data-bs-theme="light"] .content-container {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        [data-bs-theme="light"] .result-block-header{
+            color: black;
+        }
+
+        /* Destaque para os Blocos de Resultado */
+        .result-block {
+            background-color: var(--input-bg); /* Cor de fundo do Input */
+            border-radius: 8px;
+            border: 1px solid var(--input-border);
+            padding: 20px;
+            margin-bottom: 25px;
+            transition: background-color 0.3s;
+        }
+
+        .result-block-header {
+            color: var(--accent-color);
+            border-bottom: 2px solid rgba(0, 255, 255, 0.5);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: medium;
+        }
+
+        /* Estilo para a Resposta */
+        #ia-response-text {
+            white-space: pre-wrap; /* Mantém quebras de linha e formatação da IA */
+            font-size: 1.05rem;
+            color: var(--text-color);
+        }
+
+        /* Badge de Categoria */
+        .badge-category {
+            font-size: 1rem;
+            padding: 8px 15px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Ícone e Botão de Tema */
+        #theme-toggle {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background: transparent;
+            transition: all 0.3s;
+        }
+        #theme-toggle:hover {
+            color: var(--dark-bg);
+            background-color: var(--accent-color);
         }
