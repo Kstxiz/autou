@@ -76,7 +76,7 @@
         async function checkSpam() {
             const text = document.getElementById("message").value;
 
-            const response = await fetch("http://localhost:8000/predict/", {
+            const response = await fetch("http://102.37.150.56:8000/predict/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ text })
@@ -140,50 +140,7 @@
             updateThemeIcon(savedTheme);
             updateNavbarTheme(savedTheme);
         });
-
-
-        // Lógica de Envio da API (Mantida)
-        document.getElementById('btnProcess').addEventListener('click', async () => {
-            const emailContent = document.getElementById('emailContentArea').value;
-            const btn = document.getElementById('btnProcess');
-
-            if (!emailContent) {
-                alert('Por favor, insira o conteúdo do e-mail para análise.');
-                return;
-            }
-
-            const originalText = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Enviando para análise...';
-
-            // ENDPOINT DO SEU BACKEND FLASK NO AZURE
-            const backendUrl = 'http://localhost:5000/process_email';
-
-            try {
-                const response = await fetch(backendUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email_content: emailContent })
-                });
-
-                const data = await response.json();
-
-                if (!response.ok || data.status === "error") {
-                    throw new Error(data.error || `Erro HTTP! Status: ${response.status}`);
-                }
-
-                // Sucesso: Mantenho o alerta e a limpeza de texto conforme sua última instrução.
-                alert('✅ Análise concluída com sucesso! Os resultados (Categoria e Resposta) foram processados.');
-                document.getElementById('emailContentArea').value = '';
-
-            } catch (error) {
-                console.error('Falha ao processar e-mail:', error);
-                alert(`❌ Erro: Falha ao enviar ou processar a análise. Detalhes: ${error.message}.`);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-            }
-        });
+       
     </script>
 </body>
 
