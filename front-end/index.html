@@ -22,12 +22,12 @@
                     class="d-inline-block align-text-top me-2">
                 <strong>Autou</strong>
             </a>
-            
+
             <div class="d-flex align-items-center">
                 <button class="btn btn-outline-info me-3" id="theme-toggle" onclick="toggleTheme()">
                     <i class="fas fa-sun" id="theme-icon"></i>
                 </button>
-                
+
                 <span class="navbar-text small">
                     Análise Inteligente de E-mail
                 </span>
@@ -39,20 +39,21 @@
         <h2 class="text-center mb-5" style="color: var(--accent-color);">
             Análise Inteligente de E-mail
         </h2>
-        
+
         <form class="d-flex flex-column align-items-center" action="" method="post">
             <div class="mb-5 form-content">
                 <label for="emailContentArea" class="form-label">Cole o Conteúdo do E-mail para Análise</label>
-                <textarea class="form-control custom-input" id="emailContentArea" rows="10" 
-                          placeholder="Ex: Olá, precisamos finalizar o projeto X até quinta-feira. Por favor, confirme a sua disponibilidade para a reunião de amanhã às 10h."></textarea>
+                <textarea class="form-control custom-input" id="message" rows="10"
+                    placeholder="Ex: Olá, precisamos finalizar o projeto X até quinta-feira. Por favor, confirme a sua disponibilidade para a reunião de amanhã às 10h."></textarea>
             </div>
-            
+
             <div class="form-content d-flex justify-content-center">
-                <button type="button" class="btn btn-ai-submit" id="btnProcess">
+                <button type="button" class="btn btn-ai-submit" id="btnProcess" onclick="checkSpam()">
                     <i class="fas fa-robot me-2"></i> Analisar e Sugerir Resposta
                 </button>
             </div>
         </form>
+        <p id="result"></p> <!-- Espaço para mostrar o resultado -->
     </div>
 
     <footer class="footer bg-dark border-top mt-auto py-3">
@@ -66,15 +67,33 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+        crossorigin="anonymous"></script>
 
     <script>
+
+
+        async function checkSpam() {
+            const text = document.getElementById("message").value;
+
+            const response = await fetch("http://localhost:8000/predict/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text })
+            });
+
+            const data = await response.json();
+
+            document.getElementById("result").innerText =
+                data.spam === 1 ? "🚨 Spam detectado!" : "✔ Mensagem segura";
+        }
+
         // Função para alternar o tema
         function toggleTheme() {
             const root = document.documentElement;
             const currentTheme = root.getAttribute('data-bs-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
+
             root.setAttribute('data-bs-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateThemeIcon(newTheme);
@@ -101,7 +120,7 @@
         function updateNavbarTheme(theme) {
             const nav = document.querySelector('nav');
             const footer = document.querySelector('footer');
-            
+
             // Remove classes bg-dark/bg-light e adiciona a nova
             nav.setAttribute('data-bs-theme', theme);
 
@@ -127,7 +146,7 @@
         document.getElementById('btnProcess').addEventListener('click', async () => {
             const emailContent = document.getElementById('emailContentArea').value;
             const btn = document.getElementById('btnProcess');
-            
+
             if (!emailContent) {
                 alert('Por favor, insira o conteúdo do e-mail para análise.');
                 return;
@@ -136,9 +155,9 @@
             const originalText = btn.innerHTML;
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Enviando para análise...';
-            
+
             // ENDPOINT DO SEU BACKEND FLASK NO AZURE
-            const backendUrl = 'http://localhost:5000/process_email'; 
+            const backendUrl = 'http://localhost:5000/process_email';
 
             try {
                 const response = await fetch(backendUrl, {
@@ -148,14 +167,14 @@
                 });
 
                 const data = await response.json();
-                
+
                 if (!response.ok || data.status === "error") {
                     throw new Error(data.error || `Erro HTTP! Status: ${response.status}`);
                 }
-                
+
                 // Sucesso: Mantenho o alerta e a limpeza de texto conforme sua última instrução.
                 alert('✅ Análise concluída com sucesso! Os resultados (Categoria e Resposta) foram processados.');
-                document.getElementById('emailContentArea').value = ''; 
+                document.getElementById('emailContentArea').value = '';
 
             } catch (error) {
                 console.error('Falha ao processar e-mail:', error);
