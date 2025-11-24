@@ -1,0 +1,40 @@
+# .github/workflows/ci.yml
+name: Continuous Integration (CI) - Lint & Documentação
+
+# 🎯 Quando o workflow deve ser executado
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# ⚙️ Define os jobs (tarefas) a serem executados
+jobs:
+  # Job 1: Validar Qualidade da Documentação (Markdown)
+  lint_markdown:
+    name: Lint de Documentação
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 1. Checkout do Código
+        # Baixa o código do seu repositório
+        uses: actions/checkout@v4
+      
+      - name: 2. Executar Markdown Linter
+        # Usa um Action pronto para checar se o README e outros Markdowns estão bem formatados
+        # Esta ferramenta é baseada em Node.js e é muito estável.
+        uses: avto-dev/markdown-lint@v1
+        with:
+          args: './*.md' # Checa todos os arquivos .md na raiz
+          
+  # Job 2: Estrutura para Validação Python/Flask (Futuro)
+  # Este job está vazio, mas serve como um placeholder para quando você adicionar o backend
+  validate_python:
+    name: Validação Python (Placeholder)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Informação
+        run: echo "O lint e testes do código Python serão adicionados aqui quando o backend Flask for criado."
